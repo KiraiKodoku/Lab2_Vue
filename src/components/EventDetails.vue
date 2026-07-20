@@ -8,8 +8,8 @@ defineProps<{
 <template>
   <div class="event-class">
     <div class="event-card">
-      <span class="detail-text">{{ event.category }}</span>
-      <span class="detail-text">{{ event.organizer }}</span>
+      <span>{{ event.category }}</span>
+      <span>{{ event.organizer }}</span>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ defineProps<{
   border: 1px solid #39495c;
   margin-bottom: 18px;
 }
-.event-cart:hover {
+.event-card:hover {
   transform: scale(1.01);
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.2);
 }
