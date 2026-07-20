@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import EventCard from '@/components/EventCard.vue'
 import EventDetails from '@/components/EventDetails.vue'
+import EventService from '@/services/EventService'
 import type { Event } from '@/types'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
@@ -11,9 +12,9 @@ const events = ref<Event[] | null>(null)
 
 onMounted(() => {
   axios
-    .get(API_URL)
+  EventService.getEvents()
     .then((response) => {
-      console.log(response.data)
+      events.value = response.data
     })
     .catch((error) => {
       console.error('There was an error!', error)
