@@ -3,10 +3,22 @@ import EventCard from '@/components/EventCard.vue'
 import EventDetails from '@/components/EventDetails.vue'
 import type { Event } from '@/types'
 import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
 const API_URL = 'https://my-json-server.typicode.com/KiraiKodoku/Lab2_Vue_MockServer/events'
 
-const events = ref<Event[]>([])
+const events = ref<Event[] | null>(null)
+
+onMounted(() => {
+  axios
+    .get(API_URL)
+    .then((response) => {
+      console.log(response.data)
+    })
+    .catch((error) => {
+      console.error('There was an error!', error)
+    })
+})
 
 async function fetchEvents() {
   const res = await fetch(API_URL)
