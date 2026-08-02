@@ -13,6 +13,6 @@ export default {
     return apiClient.get('?_limit=' + perPage + '&_page=' + page)
   },
   getEvent(id: number) {
-    return apiClient.get('/event/' + id)
+    return apiClient.get('/' + id)
   },
 }
