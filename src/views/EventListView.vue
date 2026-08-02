@@ -11,7 +11,7 @@ const API_URL = 'https://my-json-server.typicode.com/KiraiKodoku/Lab2_Vue_MockSe
 const events = ref<Event[] | null>(null)
 const totalEvents = ref<number>(0)
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / 2)
+  const totalPages = Math.ceil(totalEvents.value / size.value)
   return page.value < totalPages
 })
 const props = defineProps({
@@ -19,14 +19,19 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  size: {
+    type: Number,
+    required: true,
+  },
 })
 const page = computed(() => props.page)
+const size = computed(() => props.size)
 
 onMounted(() => {
   axios
   watchEffect(() => {
     events.value = null
-    EventService.getEvents(2, page.value)
+    EventService.getEvents(size.value, page.value)
       .then((response) => {
         events.value = response.data
         totalEvents.value = response.headers['x-total-count']
@@ -71,6 +76,12 @@ onMounted(fetchEvents)
 <template>
   <div class="home">
     <button class="add-btn" @click="addEvent">Add New Event</button>
+    <div class="page-size">
+      <span>Events per page: </span>
+      <RouterLink :to="{ name: 'event-list-view', query: { page: 1, size: 2 } }">2</RouterLink> |
+      <RouterLink :to="{ name: 'event-list-view', query: { page: 1, size: 3 } }">3</RouterLink> |
+      <RouterLink :to="{ name: 'event-list-view', query: { page: 1, size: 5 } }">5</RouterLink>
+    </div>
     <div class="events">
       <div v-for="event in events" :key="event.id" class="event-row">
         <EventCard :event="event" />
@@ -81,7 +92,7 @@ onMounted(fetchEvents)
           :to="{ name: 'event-list-view', query: { page: page - 1 } }"
           rel="prev"
           v-if="page != 1"
-          >Prev Page |
+          >Prev Page
         </RouterLink>
 
         <RouterLink
@@ -124,10 +135,23 @@ onMounted(fetchEvents)
   display: flex;
   width: 290px;
 }
-.pagenation a {
+.pagination a {
   flex: 1;
   text-decoration: none;
   color: #2c3e50;
+}
+
+.page-size {
+  margin-bottom: 12px;
+}
+.page-size a {
+  margin: 0 6px;
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: bold;
+}
+.page-size a.router-link-exact-active {
+  color: #42b983;
 }
 
 #page-prev {
