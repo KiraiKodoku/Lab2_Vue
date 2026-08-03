@@ -11,7 +11,7 @@ const API_URL = 'https://my-json-server.typicode.com/KiraiKodoku/Lab2_Vue_MockSe
 const events = ref<Event[] | null>(null)
 const totalEvents = ref<number>(0)
 const hasNextPage = computed(() => {
-  const totalPages = Math.ceil(totalEvents.value / size.value)
+  const totalPages = Math.ceil(totalEvents.value / 3)
   return page.value < totalPages
 })
 const props = defineProps({
@@ -30,8 +30,7 @@ const size = computed(() => props.size)
 onMounted(() => {
   axios
   watchEffect(() => {
-    events.value = null
-    EventService.getEvents(size.value, page.value)
+    EventService.getEvents(3, page.value)
       .then((response) => {
         events.value = response.data
         totalEvents.value = response.headers['x-total-count']
