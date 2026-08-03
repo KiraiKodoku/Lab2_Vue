@@ -33,11 +33,6 @@ const router = createRouter({
       props: true,
     },
     {
-      path: '/:catchAll(.*)',
-      name: 'not-found',
-      component: NotFoundView,
-    },
-    {
       path: '/network-error',
       name: 'network-error-view',
       component: NetworkErrorView,
@@ -71,16 +66,10 @@ const router = createRouter({
       ],
     },
     {
-      path: '/event/:id/register',
-      name: 'event-register-view',
-      component: EventRegisterView,
-      props: true,
-    },
-    {
-      path: '/event/:id/edit',
-      name: 'event-edit-view',
-      component: EventEditView,
-      props: true,
+      // catch-all MUST stay last
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: NotFoundView,
     },
   ],
 })
